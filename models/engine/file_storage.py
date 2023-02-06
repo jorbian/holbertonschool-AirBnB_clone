@@ -31,7 +31,7 @@ class FileStorage:
             f.write(json.dumps(new))
 
     def reload(self):
-        """Deserializes the JSON file to __objects dictionary"""
+        """Deserializes of the JSON file to __objects dictionary"""
         obj = {}
         filename = FileStorage.__file_path
         try:
