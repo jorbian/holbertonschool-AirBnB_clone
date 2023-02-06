@@ -9,7 +9,6 @@ import uuid
 from itertools import chain
 from models import storage
 
-
 class BaseModel:
     """Defines all common attributres/methods for other classes"""
     def __init__(self, *args, **kwargs):
