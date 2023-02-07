@@ -1,65 +1,82 @@
 #!/usr/bin/python3
-"""tests BaseModel class"""
-
+"""Unit test for BaseModel class"""
+import unittest
+import uuid
 from datetime import datetime
 from models.base_model import BaseModel
-import json
-import unittest
-import pep8
+
 
 class TestBaseModel(unittest.TestCase):
-    """tests for BaseModel class"""
-    
-    def test_pep8(self):
-        """check for pep8"""
-        pep8style = pep8.StyleGuide(quite=True)
-        result = pep8style.check_files(['./models/base_model.py'])
-        self.assertEqual(result.total_errors, 0)
+    """Test cases for BaseModel class"""
+    def test_bas_mod_id(self):
+        """Testing id"""
+        bm1 = BaseModel()
+        self.assertIsInstance(bm1.id, str)
 
-    def Test_BaseModelsMethods(self):
-        """check for methods"""
-        self.assertTrue(BaseModel.__init__.__doc__)
-        self.assertTrue(BaseModel.__str__.__doc__)
-        self.assertTrue(BaseModel.save.__doc__)
-        self.assertTrue(BaseModel.to_dict.__doc__)
+    def test_bas_mod_crt(self):
+        """Testing creation"""
+        bm1 = BaseModel()
+        self.assertIsInstance(bm1.created_at, datetime)
 
-    def Test_BaseModel_Clss(self):
-        """check for subclass of Superclass"""
-        my_model = BaseModel()
-        self.assertTrue(my_model, "__class__")
-        self.assertTrue(my_model, "id")
-        self.assertTrue(my_model, "created_at")
-        self.assertTrue(my_model, "updated_at")
+    def test_bas_mod_upd(self):
+        """Testing update"""
+        bm1 = BaseModel()
+        self.assertIsInstance(bm1.updated_at, datetime)
 
-    def Test_BaseModel_str_cls(self):
-        """check for representation string for class"""
-        my_model = BaseModel()
-        self.assertEqual("[BaseModel]" in str(my_model), True)
-        my_model = BaseModel()
-        self.assertEqual("id" in str(my_model), True)
-        my_model = BaseModel()
-        self.assertEqual("created_at" in str(my_model), True)
-        my_model = BaseModel()
-        self.assertEqual("updated_at" in str(my_model), True)
+    def test_uwu_id(self):
+        """Testing id"""
+        bm1 = BaseModel()
+        bm2 = BaseModel()
+        self.assertNotEqual(bm1.id, bm2.id)
 
-    def Test_BaseModel_save(self):
-        """check for update_at with the current datetime"""
-        my_model = BaseModel()
-        my_model.save()
-        self.assertTrue(my_model, "updated_at")
+    def test_ini_tim(self):
+        """Testing equivalence"""
+        bm1 = BaseModel()
+        self.assertEqual(bm1.created_at, bm1.updated_at)
 
-    def Test_BaseModel_to_dict(self):
-        """check for dictionary that contains all keys/values"""
-        my_model = BaseModel()
-        new = self.my_model.to_dict()
-        self.asserTrue("to_dict" in dir(self.my_model))
+    def test_sav_upd_met(self):
+        """Testing save and update"""
+        bm1 = BaseModel()
+        cat = bm1.created_at
+        uat = bm1.updated_at
+        bm1.save()
+        self.assertEqual(bm1.created_at, cat)
+        self.assertNotEqual(bm1.updated_at, uat)
 
-    def test_BaseModel_id(self):
-        """checks for id"""
-        my_model = BaseModel()
-        my_model.name = "Holberton"
-        my_model.my_number = 89
-        self.assertEqual(type(my_model.id), str)
+    def test_richard(self):
+        """Testing dict"""
+        bm1 = BaseModel()
+        richard = bm1.to_dict()
+        self.assertIsInstance(richard, dict)
+        self.assertIsInstance(richard["updated_at"], str)
+        self.assertIsInstance(richard["created_at"], str)
+
+    def test_str_met(self):
+        """"""
+        bm1 = BaseModel()
+        self.assertIn(bm1.id, str(bm1))
+
+
+class TestBaseModel2(unittest.TestCase):
+    "TASK 2 UNIT TESTS"
+    def test_init_with_kwargs(self):
+        """Testing kwargs"""
+        created_at = '2023-04-20T00:00:00.000000'
+        updated_at = '2023-04-20T00:00:00.000000'
+        richard1 = {
+            'id': 'villager',
+            'created_at': created_at,
+            'updated_at': updated_at,
+            'name': 'uwu'
+        }
+        bm1 = BaseModel(**richard1)
+        self.assertEqual(bm1.id, 'villager')
+        self.assertEqual(bm1.created_at,
+                        datetime.strptime(created_at, '%Y-%m-%dT%H:%M:%S.%f'))
+        self.assertEqual(bm1.updated_at,
+                        datetime.strptime(updated_at, '%Y-%m-%dT%H:%M:%S.%f'))
+        self.assertEqual(bm1.name, 'uwu')
+
 
 if __name__ == "__main__":
     unittest.main()
