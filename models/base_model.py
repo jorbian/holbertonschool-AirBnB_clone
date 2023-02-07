@@ -4,11 +4,11 @@ The BaseModel class defines all common attributes/methods
 for other classes
 """
 
-import models
-
 from datetime import datetime
 from uuid import uuid4
 from itertools import chain
+
+import models
 
 
 class BaseModel:
@@ -33,7 +33,7 @@ class BaseModel:
             self.__class__.__name__,
             self.id,
             self.__dict__
-            )
+        )
 
     def save(self):
         """Updates pub instance attr updated_at w/ current time"""
