@@ -136,43 +136,34 @@ class HBNBCommand(cmd.Cmd):
                     objl.append(obj.__str__())
             print(objl)
 
-
     def do_update(self, arg):
         """Update class instance of a given id by adding or updating
         a given attribute key/value pair or dictionary."""
         argl = self.parse(arg)
         objdict = storage.all()
 
-        if len(argl) == 0:
-            print("** class name missing **")
-            return False
-        if argl[0] not in HBNBCommand.__classes:
-            print("** class doesn't exist **")
-            return False
-        if len(argl) == 1:
-            print("** instance id missing **")
-            return False
-        if "{}.{}".format(argl[0], argl[1]) not in objdict.keys():
-            print("** no instance found **")
-            return False
-        if len(argl) == 2:
-            print("** attribute name missing **")
-            return False
-        if len(argl) == 3:
-            try:
-                type(eval(argl[2])) != dict
-            except NameError:
-                print("** value missing **")
-                return False
+        possible_error = ""
 
-        if len(argl) == 4:
-            obj = objdict["{}.{}".format(argl[0], argl[1])]
-            if argl[2] in obj.__class__.__dict__.keys():
-                valtype = type(obj.__class__.__dict__[argl[2]])
-                obj.__dict__[argl[2]] = valtype(argl[3])
-            else:
-                obj.__dict__[argl[2]] = argl[3]
-        elif type(eval(argl[2])) == dict:
+        # Catch errors related to num of args
+        if len(argl) < 4:
+            possible_error = [
+                "class name missing",
+                "instance id missing",
+                "attribute name missing",
+                "value missing"
+            ][len(argl)]
+
+        other_possible_errors = [
+            (argl[0] not in HBNBCommand.__classes),
+            ("{}.{}".format(argl[0], argl[1]) not in objdict.keys())
+        ]
+        if any(other_possible_errors):
+            possible_error = [
+                "class doesn't exist",
+                "no instance found"
+            ][other_possible_errors.index(True)]
+
+        if type(eval(argl[2])) == dict:
             obj = objdict["{}.{}".format(argl[0], argl[1])]
             for k, v in eval(argl[2]).items():
                 if (k in obj.__class__.__dict__.keys() and
@@ -181,6 +172,18 @@ class HBNBCommand(cmd.Cmd):
                     obj.__dict__[k] = valtype(v)
                 else:
                     obj.__dict__[k] = v
+
+        if possible_error:
+            print("** {} **").format(possible_error)
+            return False
+        else:
+            obj = objdict["{}.{}".format(argl[0], argl[1])]
+            if argl[2] in obj.__class__.__dict__.keys():
+                valtype = type(obj.__class__.__dict__[argl[2]])
+                obj.__dict__[argl[2]] = valtype(argl[3])
+            else:
+                obj.__dict__[argl[2]] = argl[3]
+
         storage.save()
 
 if __name__ == '__main__':
