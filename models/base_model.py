@@ -49,10 +49,10 @@ class BaseModel:
             chain.from_iterable(
                 d.items() for d in
                 (self.__dict__,
-                {
-                    "updated_at": self.updated_at.isoformat(),
-                    "created_at": self.created_at.isoformat(),
-                    "__class__": self.__class__.__name__
-                })
+                    {
+                        "updated_at": self.updated_at.isoformat(),
+                        "created_at": self.created_at.isoformat(),
+                        "__class__": self.__class__.__name__
+                    })
             )
         )
