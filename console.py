@@ -17,13 +17,7 @@ class HBNBCommand(cmd.Cmd):
     file = None
 
     __classes = {
-        "BaseModel",
-        "User",
-        "State",
-        "City",
-        "Place",
-        "Amenity",
-        "Review"
+        "BaseModel"
     }
 
     def parse_line(self, arg):
