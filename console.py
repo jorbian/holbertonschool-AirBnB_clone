@@ -1,6 +1,7 @@
 #!/usr/bin/python3
-
+"""Defines the HBnB console."""
 import cmd, subprocess
+
 
 class HBNBCommand(cmd.Cmd):
     intro = ''
@@ -9,6 +10,10 @@ class HBNBCommand(cmd.Cmd):
 
     def emptyline(self):
         """Do nothing upon receiving an empty line."""
+        pass
+
+    def default(self, arg):
+        """Default behavior for cmd module when input is invalid"""
         pass
 
     def do_quit(self, arg):
@@ -20,6 +25,7 @@ class HBNBCommand(cmd.Cmd):
         return self.do_quit("")
 
     def do_clear(self, arg):
+        """Clears the screen."""
         subprocess.run(["clear"])
 
 if __name__ == '__main__':
