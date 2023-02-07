@@ -4,10 +4,12 @@ The BaseModel class defines all common attributes/methods
 for other classes
 """
 
+import models
+
 from datetime import datetime
-import uuid
+from uuid import uuid4
 from itertools import chain
-from models import storage
+
 
 class BaseModel:
     """Defines all common attributres/methods for other classes"""
@@ -21,9 +23,9 @@ class BaseModel:
                     setattr(self, key, value)
         else:
             self.updated_at = datetime.now()
-            self.id = str(uuid.uuid4())
+            self.id = str(uuid4())
             self.created_at = datetime.now()
-            storage.new(self)
+            models.storage.new(self)
 
     def __str__(self):
         """Creates str representation of object"""
@@ -36,7 +38,7 @@ class BaseModel:
     def save(self):
         """Updates pub instance attr updated_at w/ current time"""
         self.updated_at = datetime.now()
-        storage.save()
+        models.storage.save()
 
     def to_dict(self):
         """
