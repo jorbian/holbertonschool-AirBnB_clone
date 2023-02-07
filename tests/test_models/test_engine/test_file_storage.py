@@ -10,7 +10,6 @@ import pep8
 import unittest
 import sys
 
-sys.exit()
 
 class FileStorage(unittest.TestCase):
     """tests for FileStorage"""
