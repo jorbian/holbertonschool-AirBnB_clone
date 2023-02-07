@@ -3,8 +3,9 @@
 
 from datetime import datetime
 from models.base_model import BaseModel
-
+import json
 import unittest
+import pep8
 
 class TestBaseModel(unittest.TestCase):
     """tests for BaseModel class"""
@@ -33,13 +34,13 @@ class TestBaseModel(unittest.TestCase):
     def Test_BaseModel_str_cls(self):
         """check for representation string for class"""
         my_model = BaseModel()
-        self.assertEqual("[BaseModel]" in str(my_model), true)
+        self.assertEqual("[BaseModel]" in str(my_model), True)
         my_model = BaseModel()
-        self.assertEqual("id" in str(my_model), true)
+        self.assertEqual("id" in str(my_model), True)
         my_model = BaseModel()
-        self.assertEqual("created_at" in str(my_model), true)
+        self.assertEqual("created_at" in str(my_model), True)
         my_model = BaseModel()
-        self.assertEqual("updated_at" in str(my_model), true)
+        self.assertEqual("updated_at" in str(my_model), True)
 
     def Test_BaseModel_save(self):
         """check for update_at with the current datetime"""
