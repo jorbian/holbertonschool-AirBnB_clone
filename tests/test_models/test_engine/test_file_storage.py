@@ -1,45 +1,59 @@
 #!/usr/bin/python3
-"""tests FileStorage class"""
-
+"""FileStorage Unit Test Module"""
+import unittest
+import os
+import json
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
-from datetime import datetime
-import json
-import os
-import pep8
-import unittest
-import sys
 
 
-class FileStorage(unittest.TestCase):
-    """tests for FileStorage"""
-
-    def test_pep8(self):
-        """check for pep8"""
-        pep8style = pep8.StyleGuide(quite=True)
-        result = pep8style.check_files(['./models/engine/file_storage.py'])
-        self.assertEqual(result.total_errors, 0)
-
-    def Test_FileStorage(self):
-        """check for attributes"""
-        self.assertTrue(FileStorage.__file_path.__doc__)
-        self.assertTrue(FileStorage.__objects.__doc__)
+class TestFileStorage(unittest.TestCase):
+    """file storage unit tests"""
+    def setUp(self):
+        self.file_storage = FileStorage()
+        self.file_path = FileStorage._FileStorage__file_path
 
     def test_all(self):
-        """check for returns the dictionary __objects"""
-        pass
+        """Tests all module"""
+        obj = BaseModel()
+        self.file_storage.new(obj)
+        objects = self.file_storage.all()
+        self.assertIsInstance(objects, dict)
+        self.assertEqual(obj, objects["BaseModel.{}".format(obj.id)])
 
     def test_new(self):
-        """check for setting the objects in __objects dictionary"""
-        pass
+        """Tests making a new obj"""
+        obj = BaseModel()
+        self.file_storage.new(obj)
+        objects = self.file_storage.all()
+        self.assertEqual(obj, objects["BaseModel.{}".format(obj.id)])
 
     def test_save(self):
-        """check if it saves changes"""
-        Storage = FileStorage()
-        my_model = BaseModel()
-        my_model.save()
-        self.assertTrue(os.path.exists('file.json'))
+        """Tests saving an obj"""
+        obj = BaseModel()
+        self.file_storage.new(obj)
+        self.file_storage.save()
+        with open(self.file_path, "r") as file:
+            file_content = json.load(file)
+        self.assertEqual(obj.to_dict(),
+                        file_content["BaseModel.{}".format(obj.id)])
 
     def test_reload(self):
-        """check for deserializes the JSON file to __objects"""
-        pass
+        """Tests reloading an object"""
+        obj = BaseModel()
+        self.file_storage.new(obj)
+        self.file_storage.save()
+        self.file_storage.__objects = {}
+        self.file_storage.reload()
+        objects = self.file_storage.all()
+        self.assertEqual(obj.to_dict(),
+                        objects["BaseModel.{}".format(obj.id)].to_dict())
+
+    def tearDown(self):
+        """Tests tearing down an obj"""
+        if os.path.exists(self.file_path):
+            os.remove(self.file_path)
+
+
+if __name__ == "__main__":
+    unittest.main()
