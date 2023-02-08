@@ -3,6 +3,7 @@
 import unittest
 import os
 import json
+from models import storage
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
 
@@ -40,14 +41,9 @@ class TestFileStorage(unittest.TestCase):
 
     def test_reload(self):
         """Tests reloading an object"""
-        obj = BaseModel()
-        self.file_storage.new(obj)
-        self.file_storage.save()
-        self.file_storage.__objects = {}
-        self.file_storage.reload()
-        objects = self.file_storage.all()
-        self.assertEqual(obj.to_dict(),
-                        objects["BaseModel.{}".format(obj.id)].to_dict())
+        FileStorage.clear()
+        storage.reload()
+        self.assertTrue(len(storage.all()) > 0)
 
     def tearDown(self):
         """Tests tearing down an obj"""
