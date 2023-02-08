@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 """Defines the HBnB console."""
-import cmd, subprocess, re
+import cmd
+import subprocess
+import re
 
 from shlex import split
 from models import storage
@@ -12,14 +14,21 @@ from models.amenity import Amenity
 from models.review import Review
 
 class HBNBCommand(cmd.Cmd):
+    """Defines the HBnB console."""
     intro = ''
     prompt = '(hbnb) '
     file = None
 
     __classes = {
-        "BaseModel"
+        "BaseModel",
+        "User",
+        "State",
+        "City",
+        "Place",
+        "Amenity",
+        "Review"
     }
-
+    
     def parse_line(self, arg):
         """PARSES A GIVEN SET OF ARGUMENTS"""
         curly_braces = re.search(r"\{(.*?)\}", arg)
