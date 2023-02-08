@@ -5,22 +5,21 @@ for other classes
 """
 
 from datetime import datetime
-from uuid import uuid4
+import uuid
 from itertools import chain
 
 import models
 
 
 class BaseModel:
-    """Defines all common attributres/methods for other classes"""
+    """Class defines all common attributes/methods"""
     def __init__(self, *args, **kwargs):
-        """Initializing method"""
-        if kwargs:
-            for key, value in kwargs.items():
-                if key == "updated_at" or key == "created_at":
-                    value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
-                if key != "__class__":
-                    setattr(self, key, value)
+        self.created_at = self.updated_at = datetime.now()
+        self.id = str(uuid.uuid4())
+        if kwargs != {}:
+            for k, v in kwargs.items():
+                if k != "__class__":
+                    setattr(self, k, v)
         else:
             models.storage.new(self)
         self.created_at = self.created_at \
