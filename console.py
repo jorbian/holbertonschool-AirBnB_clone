@@ -6,12 +6,6 @@ import re
 
 from shlex import split
 from models import storage
-from models.base_model import BaseModel
-from models.state import State
-from models.city import City
-from models.place import Place
-from models.amenity import Amenity
-from models.review import Review
 
 class HBNBCommand(cmd.Cmd):
     """Defines the HBnB console."""
@@ -28,7 +22,7 @@ class HBNBCommand(cmd.Cmd):
         "Amenity",
         "Review"
     }
-    
+
     def parse_line(self, arg):
         """PARSES A GIVEN SET OF ARGUMENTS"""
         curly_braces = re.search(r"\{(.*?)\}", arg)
