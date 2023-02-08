@@ -6,6 +6,13 @@ import re
 
 from shlex import split
 from models import storage
+from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.place import Place
+from models.amenity import Amenity
+from models.review import Review
 
 class HBNBCommand(cmd.Cmd):
     """Defines the HBnB console."""
@@ -142,7 +149,7 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, arg):
         """Update class instance of a given id by adding or updating
         a given attribute key/value pair or dictionary."""
-        argl = self.parse(arg)
+        argl = self.parse_line(arg)
         objdict = storage.all()
 
         possible_error = ""
