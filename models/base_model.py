@@ -22,10 +22,13 @@ class BaseModel:
                 if key != "__class__":
                     setattr(self, key, value)
         else:
-            self.updated_at = datetime.now()
-            self.id = str(uuid4())
-            self.created_at = datetime.now()
             models.storage.new(self)
+        self.created_at = self.created_at \
+            if type(self.created_at) is not str else\
+            datetime.strptime(self.created_at, "%Y-%m-%dT%H:%M:%S.%f")
+        self.updated_at = self.updated_at \
+            if type(self.updated_at) is not str else \
+            datetime.strptime(self.updated_at, "%Y-%m-%dT%H:%M:%S.%f")
 
     def __str__(self):
         """Creates str representation of object"""
