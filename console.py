@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-"""Module console
-Creating command interpreter console
+"""Module console Creating command interpreter console
 """
 
 import cmd
@@ -12,7 +11,6 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 from models import storage
-import re
 
 
 class HBNBCommand(cmd.Cmd):
@@ -28,8 +26,6 @@ class HBNBCommand(cmd.Cmd):
         "Place": Place,
         "Review": Review
     }
-
-
     def do_quit(self, line):
         """Quit command to exit the program"""
         return True
@@ -94,12 +90,11 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, arg):
         """updates an instance based on the class name and id"""
-
         list_arg = arg.split(' ')
         possible_error = ""
-        
+
         if len(list_arg) < 4:
-           possible_error = [
+            possible_error = [
                 "class name missing",
                 "instance id missing",
                 "attribute name missing",
@@ -144,7 +139,6 @@ class HBNBCommand(cmd.Cmd):
         else:
             n = [str(obj) for key, obj in storage.all().items()]
             print(n)
-
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
