@@ -142,7 +142,7 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, arg):
         """Update class instance of a given id by adding or updating
         a given attribute key/value pair or dictionary."""
-        argl = self.parse(arg)
+        argl = self.parse_line(arg)
         objdict = storage.all()
 
         possible_error = ""
@@ -168,17 +168,17 @@ class HBNBCommand(cmd.Cmd):
 
         if type(eval(argl[2])) == dict:
             obj = objdict["{}.{}".format(argl[0], argl[1])]
-            for k, v in eval(argl[2]).items():
-                if (k in obj.__class__.__dict__.keys() and
-                        type(obj.__class__.__dict__[k]) in {str, int, float}):
-                    valtype = type(obj.__class__.__dict__[k])
-                    obj.__dict__[k] = valtype(v)
+            for key, value in eval(argl[2]).items():
+                if (key in obj.__class__.__dict__.keys() and
+                        type(obj.__class__.__dict__[key]) in {str, int, float}):
+                    valtype = type(obj.__class__.__dict__[key])
+                    obj.__dict__[key] = valtype(value)
                 else:
-                    obj.__dict__[k] = v
+                    obj.__dict__[key] = value
 
         if possible_error:
             print("** {} **").format(possible_error)
-            return False
+            return
         else:
             obj = objdict["{}.{}".format(argl[0], argl[1])]
             if argl[2] in obj.__class__.__dict__.keys():
