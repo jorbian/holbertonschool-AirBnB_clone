@@ -1,82 +1,80 @@
 #!/usr/bin/python3
-"""Unit test for BaseModel class"""
+""" Base Class Test Cases"""
 import unittest
-import uuid
 from datetime import datetime
 from models.base_model import BaseModel
 
 
 class TestBaseModel(unittest.TestCase):
-    """Test cases for BaseModel class"""
-    def test_bas_mod_id(self):
-        """Testing id"""
+    """TASK 1 UNIT TESTS"""
+    def test_base_model_id(self):
+        """Test that id is assigned as a string"""
         bm1 = BaseModel()
         self.assertIsInstance(bm1.id, str)
 
-    def test_bas_mod_crt(self):
-        """Testing creation"""
+    def test_base_model_create(self):
+        """Test that created_at is stored as datetime"""
         bm1 = BaseModel()
         self.assertIsInstance(bm1.created_at, datetime)
 
-    def test_bas_mod_upd(self):
-        """Testing update"""
+    def test_base_model_update(self):
         bm1 = BaseModel()
         self.assertIsInstance(bm1.updated_at, datetime)
 
-    def test_uwu_id(self):
-        """Testing id"""
+    def test_unique_id(self):
         bm1 = BaseModel()
         bm2 = BaseModel()
         self.assertNotEqual(bm1.id, bm2.id)
 
-    def test_ini_tim(self):
-        """Testing equivalence"""
+    def test_init_time(self):
         bm1 = BaseModel()
         self.assertEqual(bm1.created_at, bm1.updated_at)
 
-    def test_sav_upd_met(self):
-        """Testing save and update"""
+    def test_save_update(self):
         bm1 = BaseModel()
-        cat = bm1.created_at
-        uat = bm1.updated_at
+        created = bm1.created_at
+        updated = bm1.updated_at
         bm1.save()
-        self.assertEqual(bm1.created_at, cat)
-        self.assertNotEqual(bm1.updated_at, uat)
+        self.assertEqual(bm1.created_at, created)
+        self.assertNotEqual(bm1.updated_at, updated)
 
-    def test_richard(self):
-        """Testing dict"""
+    def test_to_dict(self):
         bm1 = BaseModel()
-        richard = bm1.to_dict()
-        self.assertIsInstance(richard, dict)
-        self.assertIsInstance(richard["updated_at"], str)
-        self.assertIsInstance(richard["created_at"], str)
+        dict_model = bm1.to_dict()
+        self.assertIsInstance(dict_model, dict)
+        self.assertIsInstance(dict_model["updated_at"], str)
+        self.assertIsInstance(dict_model["created_at"], str)
 
-    def test_str_met(self):
-        """"""
+    def test_str_(self):
         bm1 = BaseModel()
         self.assertIn(bm1.id, str(bm1))
 
-
-class TestBaseModel2(unittest.TestCase):
-    "TASK 2 UNIT TESTS"
     def test_init_with_kwargs(self):
-        """Testing kwargs"""
         created_at = '2023-04-20T00:00:00.000000'
         updated_at = '2023-04-20T00:00:00.000000'
-        richard1 = {
+        template = {
             'id': 'villager',
             'created_at': created_at,
             'updated_at': updated_at,
-            'name': 'uwu'
+            'name': 'Robert'
         }
-        bm1 = BaseModel(**richard1)
+        bm1 = BaseModel(**template)
         self.assertEqual(bm1.id, 'villager')
         self.assertEqual(bm1.created_at,
                         datetime.strptime(created_at, '%Y-%m-%dT%H:%M:%S.%f'))
         self.assertEqual(bm1.updated_at,
                         datetime.strptime(updated_at, '%Y-%m-%dT%H:%M:%S.%f'))
-        self.assertEqual(bm1.name, 'uwu')
+        self.assertEqual(bm1.name, 'Robert')
 
-
-if __name__ == "__main__":
-    unittest.main()
+    def test_to_dict_and_back(self):
+        """Test for full path of recreating from dictionary """
+        bm1 = BaseModel()
+        bm1_str = str(bm1)
+        bm2_template = bm1.to_dict()
+        bm2 = BaseModel(**bm2_template)
+        self.assertEqual(str(bm2), bm1_str)
+        # Test for Equality, as this should print all atributes
+        self.assertIsInstance(bm2.created_at, datetime)
+        # Follow up with other tests ensuring
+        self.assertIsInstance(bm2.updated_at, datetime)
+        # the object was recreated properly.
