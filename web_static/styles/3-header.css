@@ -1,15 +1,6 @@
-
 header {
     background-color: #FFFFFF;
     height: 70px;
     width: 100%;
     border-bottom: 1px solid #CCCCCC;
-}
-
-.logo {
-    background-image:url('../images/icon.png');
-    background-repeat: no-repeat;
-    background-position: 20px;
-    min-width: 100%;
-    min-height: 100%;
 }
